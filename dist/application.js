@@ -90,19 +90,15 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _services_information_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
-/* harmony import */ var _services_eventListener_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
+/* harmony import */ var _services_eventListener_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
 
 
+/**
+ * INIT APPLICATION
+ */
 
-
-
-
-
-_services_eventListener_service__WEBPACK_IMPORTED_MODULE_4__["menuEventListener"].showHideMenuListener();
+_services_eventListener_service__WEBPACK_IMPORTED_MODULE_0__["menuEventListeners"].initShowHideMenuListener();
+_services_eventListener_service__WEBPACK_IMPORTED_MODULE_0__["menuEventListeners"].initClickOnLiElement();
 
 
 
@@ -120,8 +116,8 @@ const domElements = {
     },
     menuElements: {
         navigationMenu: document.getElementById("navigation-menu"),
-        menuListContainer: document.getElementsByClassName("menu-list-container")[0],
-        listOfLiElements: document.getElementsByClassName("menu-list-container-li")
+        menuListContainer: document.getElementById("menu-list-container"),
+        listOfLiElements: document.querySelectorAll(".menu-list-container-li")
     },
     renderElements: {
         title: document.getElementById("title"),
@@ -209,7 +205,12 @@ function addNavigationMenuStyles() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLectureInfo", function() { return getLectureInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchDataBasedOnId", function() { return fetchDataBasedOnId; });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+/* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+
+
+
 function getLectureInfo(lectureId) {
     "use strict";
     let url = `https://api.npoint.io/${lectureId}`;
@@ -225,6 +226,15 @@ function getLectureInfo(lectureId) {
 }
 
 
+function fetchDataBasedOnId(id) {
+    return getLectureInfo(_utils__WEBPACK_IMPORTED_MODULE_0__["idOfLectures"][id])
+        .then((result) => {
+            console.log(result);
+            Object(_render__WEBPACK_IMPORTED_MODULE_1__["render"])(result)
+        })
+}
+
+
 /***/ }),
 /* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -233,7 +243,7 @@ function getLectureInfo(lectureId) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony import */ var _domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _services_navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -241,7 +251,7 @@ function render(response) {
     "use strict";
     _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.title.innerText = response.title;
     _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.mainContainer.innerText = response.description;
-    _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle();
+    _services_navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle();
 }
 
 
@@ -251,23 +261,74 @@ function render(response) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "menuEventListener", function() { return menuEventListener; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "menuEventListeners", function() { return menuEventListeners; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteListener", function() { return deleteListener; });
 /* harmony import */ var _domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _information_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
 
 
 
 
 
-const menuEventListener = {
-    showHideMenuListener: function () {
-        return _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.addEventListener("click", _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle);
+const menuEventListeners = {
+    initShowHideMenuListener: function () {
+        return createListener(_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu, "click", _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle, null);
     },
-    deleteShowHideMenuListener: function () {
-        return _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.removeEventListener("click", _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle);
+    initClickOnLiElement: function () {
+        _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.listOfLiElements.forEach(item => {
+            createListener(item, "click", (event) => Object(_information_service__WEBPACK_IMPORTED_MODULE_2__["fetchDataBasedOnId"])(event.target.value))
+        });
     }
 };
 
+/**
+ *
+ * @param element  => DOM element
+ * @param listenerType => "click", "blur" etc..
+ * @param functionName => name of function what need to bind with event
+ * @param options
+ * @returns {*} returns listener
+ */
+
+function createListener(element, listenerType, functionName, ...options) {
+    try {
+        return element.addEventListener(listenerType, functionName, options);
+    } catch (e) {
+        console.warn(e);
+    }
+}
+
+
+/**
+ *
+ * If need to remove some listener in future:
+ * @param element => DOM element
+ * @param listenerType "click", "blur" etc..
+ * @param functionName name of function what need to bind with event
+ * @returns {*} returns true if deleted;
+ */
+
+function deleteListener(element, listenerType, functionName) {
+    try {
+        return element.removeEventListener(listenerType, functionName);
+    } catch (e) {
+        console.warn(e);
+    }
+}
+
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "idOfLectures", function() { return idOfLectures; });
+const idOfLectures = [
+    "1eb57b3784b0f61767a6"
+];
 
 
 /***/ })

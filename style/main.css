@@ -48,7 +48,7 @@ html, body {
     width: 250px;
 }
 
-.menu-list-container {
+#menu-list-container {
     display: none;
     position: absolute;
     top: 50px;
@@ -57,17 +57,13 @@ html, body {
     animation: show 1s;
 }
 
-.menu-list-container li {
+#menu-list-container li {
     list-style: none;
     padding: 10px;
 }
 
-.menu-list-container li a {
-    text-decoration: none;
-    color: #ffffff;
-}
 
-.menu-list-container li a:hover {
+#menu-list-container li:hover {
     cursor: pointer;
     color: #303030;
     text-decoration: underline;
