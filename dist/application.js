@@ -92,33 +92,19 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _services_information_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
+/* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+/* harmony import */ var _services_eventListener_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
 
 
 
 
-_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.addEventListener("click", _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle);
 
 
-function render(response) {
-    "use strict";
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.title.innerText = response.title;
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.mainContainer.innerText = response.description;
-    _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle();
-}
 
-function getPage(pageId) {
-    "use strict";
-    let url = `https://api.npoint.io/${pageId}`;
-    fetch(url)
-        .then((res) => res.json())
-        .then((result) => render(result))
-        .catch(function (error) {
-            throw {
-                name: "Can't fetch data from server",
-                message: error
-            };
-        });
-}
+_services_eventListener_service__WEBPACK_IMPORTED_MODULE_4__["menuEventListener"].showHideMenuListener();
+
+
 
 
 /***/ }),
@@ -214,6 +200,73 @@ function addNavigationMenuStyles() {
     _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.menuListContainer.style.display = "block";
     _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.style.left = "220px";
 }
+
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLectureInfo", function() { return getLectureInfo; });
+function getLectureInfo(lectureId) {
+    "use strict";
+    let url = `https://api.npoint.io/${lectureId}`;
+    return fetch(url)
+        .then((res) => res.json())
+        .then((result) => Promise.resolve(result))
+        .catch(function (error) {
+            throw {
+                name: "Can't fetch data from server",
+                message: error
+            };
+        });
+}
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony import */ var _domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+
+
+
+function render(response) {
+    "use strict";
+    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.title.innerText = response.title;
+    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.mainContainer.innerText = response.description;
+    _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle();
+}
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "menuEventListener", function() { return menuEventListener; });
+/* harmony import */ var _domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+
+
+
+
+
+const menuEventListener = {
+    showHideMenuListener: function () {
+        return _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.addEventListener("click", _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle);
+    },
+    deleteShowHideMenuListener: function () {
+        return _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.removeEventListener("click", _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle);
+    }
+};
 
 
 
