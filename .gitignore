@@ -1,0 +1,6 @@
+#Folders
+/node_modules
+/javascript
+#Files
+package-lock.json
+webpack.config.js
