@@ -136,7 +136,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleMenu", function() { return toggleMenu; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeNavigationMenuStyles", function() { return removeNavigationMenuStyles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addNavigationMenuStyles", function() { return addNavigationMenuStyles; });
-/* harmony import */ var _domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 
 
 const toggleMenu = (function () {
@@ -183,18 +183,18 @@ const toggleMenu = (function () {
 
 function removeNavigationMenuStyles() {
     "use strict";
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.navigationMenu.classList.remove("menu-opened");
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.menuListContainer.style.display = "none";
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.innerText = ">";
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.style.left = "0px";
+    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.navigationMenu.classList.remove("menu-opened");
+    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.menuListContainer.style.display = "none";
+    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.innerText = ">";
+    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.style.left = "0px";
 }
 
 function addNavigationMenuStyles() {
     "use strict";
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.navigationMenu.classList.add("menu-opened");
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.innerText = "<";
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.menuListContainer.style.display = "block";
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.style.left = "220px";
+    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.navigationMenu.classList.add("menu-opened");
+    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.innerText = "<";
+    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.menuListContainer.style.display = "block";
+    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu.style.left = "220px";
 }
 
 
@@ -227,11 +227,13 @@ function getLectureInfo(lectureId) {
 
 
 function fetchDataBasedOnId(id) {
-    return getLectureInfo(_utils__WEBPACK_IMPORTED_MODULE_0__["idOfLectures"][id])
-        .then((result) => {
-            console.log(result);
-            Object(_render__WEBPACK_IMPORTED_MODULE_1__["render"])(result)
-        })
+    let lectureId = _utils__WEBPACK_IMPORTED_MODULE_0__["idOfLectures"][id];
+    if(lectureId) {
+        return getLectureInfo(lectureId)
+            .then((result) => {
+                Object(_render__WEBPACK_IMPORTED_MODULE_1__["render"])(result)
+            })
+    }
 }
 
 
@@ -242,15 +244,15 @@ function fetchDataBasedOnId(id) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony import */ var _domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _services_navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
 function render(response) {
     "use strict";
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.title.innerText = response.title;
-    _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.mainContainer.innerText = response.description;
+    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.title.innerText = response.title;
+    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.mainContainer.innerText = response.description;
     _services_navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle();
 }
 
@@ -263,7 +265,7 @@ function render(response) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "menuEventListeners", function() { return menuEventListeners; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteListener", function() { return deleteListener; });
-/* harmony import */ var _domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var _information_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
 
@@ -273,10 +275,10 @@ __webpack_require__.r(__webpack_exports__);
 
 const menuEventListeners = {
     initShowHideMenuListener: function () {
-        return createListener(_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu, "click", _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle, null);
+        return createListener(_domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu, "click", _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle, null);
     },
     initClickOnLiElement: function () {
-        _domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.listOfLiElements.forEach(item => {
+        _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.listOfLiElements.forEach(item => {
             createListener(item, "click", (event) => Object(_information_service__WEBPACK_IMPORTED_MODULE_2__["fetchDataBasedOnId"])(event.target.value))
         });
     }
