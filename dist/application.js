@@ -102,7 +102,6 @@ _services_eventListener_service__WEBPACK_IMPORTED_MODULE_0__["menuEventListeners
 
 
 
-
 /***/ }),
 /* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -208,6 +207,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchDataBasedOnId", function() { return fetchDataBasedOnId; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
 /* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+/* harmony import */ var _domElements_spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+
 
 
 
@@ -229,9 +230,12 @@ function getLectureInfo(lectureId) {
 function fetchDataBasedOnId(id) {
     let lectureId = _utils__WEBPACK_IMPORTED_MODULE_0__["idOfLectures"][id];
     if(lectureId) {
+        _domElements_spinner__WEBPACK_IMPORTED_MODULE_2__["spinner"].instance().showSpinner();
         return getLectureInfo(lectureId)
             .then((result) => {
-                Object(_render__WEBPACK_IMPORTED_MODULE_1__["render"])(result)
+                Object(_render__WEBPACK_IMPORTED_MODULE_1__["render"])(result);
+                _domElements_spinner__WEBPACK_IMPORTED_MODULE_2__["spinner"].instance().hideSpinner();
+                console.log("end  Spinner");
             })
     }
 }
@@ -331,6 +335,77 @@ __webpack_require__.r(__webpack_exports__);
 const idOfLectures = [
     "1eb57b3784b0f61767a6"
 ];
+
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "spinner", function() { return spinner; });
+/**
+ * Spinner implementation
+ */
+
+const spinner = (function () {
+    "use strict";
+    let spinnerElement;
+    let loaderText;
+    let instance;
+
+    function showSpinner() {
+        loaderText = document.createElement("h1");
+        loaderText.innerText = "Please wait...";
+        loaderText.style.cssText =
+            "font-size: 20px;\n" +
+            "color: #ffffff;\n" +
+            "text-align: center;";
+        spinnerElement = document.createElement("div");
+        spinnerElement.setAttribute("id", "ng-spinner");
+        spinnerElement.style.cssText =
+            "position: fixed;\n" +
+            "background: rgba(0,0,1,0.7);\n" +
+            "height: 100vh;\n" +
+            "width: 100%;\n" +
+            "z-index: 100500;\n" +
+            "top: 0;\n" +
+            "left: 0;";
+        spinnerElement.appendChild(loaderText);
+        document.body.appendChild(spinnerElement);
+    }
+
+    function hideSpinner() {
+        try {
+            document.body.removeChild(spinnerElement);
+        } catch (e) {
+            throw {
+                name: "Remove html element error",
+                message: e
+            }
+        }
+    }
+
+    function createInstance() {
+        return {
+            hideSpinner: hideSpinner,
+            showSpinner: showSpinner
+        }
+    }
+
+    return {
+        instance: function () {
+            if (instance) {
+                return instance;
+            } else {
+                instance = createInstance();
+                return instance;
+            }
+        }
+    };
+
+}());
 
 
 /***/ })
