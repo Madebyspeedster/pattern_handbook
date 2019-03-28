@@ -90,8 +90,8 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _services_eventListener_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-/* harmony import */ var _services_information_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var _services_eventListener_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _services_information_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
 
 
 
@@ -116,6 +116,70 @@ _services_information_service__WEBPACK_IMPORTED_MODULE_1__["getLastLectureIfExis
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "menuEventListeners", function() { return menuEventListeners; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteListener", function() { return deleteListener; });
+/* harmony import */ var _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var _information_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+
+
+
+
+
+const menuEventListeners = {
+    initShowHideMenuListener: function () {
+        return createListener(_domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu, "click", _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle, null);
+    },
+    initClickOnLiElement: function () {
+        _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.listOfLiElements.forEach(item => {
+            createListener(item, "click", (event) => Object(_information_service__WEBPACK_IMPORTED_MODULE_2__["fetchDataBasedOnId"])(event.target.value))
+        });
+    }
+};
+
+/**
+ *
+ * @param element  => DOM element
+ * @param listenerType => "click", "blur" etc..
+ * @param functionName => name of function what need to bind with event
+ * @param options
+ * @returns {*} returns listener
+ */
+
+function createListener(element, listenerType, functionName, ...options) {
+    try {
+        return element.addEventListener(listenerType, functionName, options);
+    } catch (e) {
+        console.warn(e);
+    }
+}
+
+
+/**
+ *
+ * If need to remove some listener in future:
+ * @param element => DOM element
+ * @param listenerType "click", "blur" etc..
+ * @param functionName name of function what need to bind with event
+ * @returns {*} returns true if deleted;
+ */
+
+function deleteListener(element, listenerType, functionName) {
+    try {
+        return element.removeEventListener(listenerType, functionName);
+    } catch (e) {
+        console.warn(e);
+    }
+}
+
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "domElements", function() { return domElements; });
 const domElements = {
     buttons: {
@@ -135,7 +199,7 @@ const domElements = {
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -143,7 +207,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleMenu", function() { return toggleMenu; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeNavigationMenuStyles", function() { return removeNavigationMenuStyles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addNavigationMenuStyles", function() { return addNavigationMenuStyles; });
-/* harmony import */ var _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 
 
 const toggleMenu = (function () {
@@ -207,17 +271,17 @@ function addNavigationMenuStyles() {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchDataBasedOnId", function() { return fetchDataBasedOnId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLastLectureIfExist", function() { return getLastLectureIfExist; });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-/* harmony import */ var _domElements_spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
-/* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+/* harmony import */ var _domElements_spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
+/* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
 
 
 
@@ -273,14 +337,28 @@ function getLastLectureIfExist() {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "idOfLectures", function() { return idOfLectures; });
+const idOfLectures = [
+    // Загальнодоступні статичні методи.
+    "1eb57b3784b0f61767a6"
+];
+
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony import */ var _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _services_codeHighlighter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
+/* harmony import */ var _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _services_codeHighlighter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 
 
 
@@ -297,85 +375,32 @@ function render(response) {
 
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "menuEventListeners", function() { return menuEventListeners; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteListener", function() { return deleteListener; });
-/* harmony import */ var _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _information_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-
-
-
-
-
-const menuEventListeners = {
-    initShowHideMenuListener: function () {
-        return createListener(_domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].buttons.btnMenu, "click", _navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle, null);
-    },
-    initClickOnLiElement: function () {
-        _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].menuElements.listOfLiElements.forEach(item => {
-            createListener(item, "click", (event) => Object(_information_service__WEBPACK_IMPORTED_MODULE_2__["fetchDataBasedOnId"])(event.target.value))
-        });
-    }
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addColorToCode", function() { return addColorToCode; });
+const addColorToCode = (code) => {
+    let result = "";
+    code[0].split(" ").forEach((item) => {
+        if(item === "const") {
+            item = `<span style="color: orange;">${item}</span>`;
+        }
+        if(item === "function") {
+            item = `<span style="color: deepskyblue;"><i>${item}</i></span>`;
+        }
+        if(item === "return") {
+            item = `<span style="color: orange;">${item}</span>`;
+        }
+        result += ` ${item}`;
+    });
+    return result;
 };
 
-/**
- *
- * @param element  => DOM element
- * @param listenerType => "click", "blur" etc..
- * @param functionName => name of function what need to bind with event
- * @param options
- * @returns {*} returns listener
- */
-
-function createListener(element, listenerType, functionName, ...options) {
-    try {
-        return element.addEventListener(listenerType, functionName, options);
-    } catch (e) {
-        console.warn(e);
-    }
-}
-
-
-/**
- *
- * If need to remove some listener in future:
- * @param element => DOM element
- * @param listenerType "click", "blur" etc..
- * @param functionName name of function what need to bind with event
- * @returns {*} returns true if deleted;
- */
-
-function deleteListener(element, listenerType, functionName) {
-    try {
-        return element.removeEventListener(listenerType, functionName);
-    } catch (e) {
-        console.warn(e);
-    }
-}
-
-
 
 /***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "idOfLectures", function() { return idOfLectures; });
-const idOfLectures = [
-    // Загальнодоступні статичні методи.
-    "1eb57b3784b0f61767a6"
-];
-
-
-
-/***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -442,31 +467,6 @@ const spinner = (function () {
     };
 
 }());
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addColorToCode", function() { return addColorToCode; });
-const addColorToCode = (code) => {
-    let result = "";
-    code[0].split(" ").forEach((item) => {
-        if(item === "const") {
-            item = `<span style="color: orange;">${item}</span>`;
-        }
-        if(item === "function") {
-            item = `<span style="color: deepskyblue;"><i>${item}</i></span>`;
-        }
-        if(item === "return") {
-            item = `<span style="color: orange;">${item}</span>`;
-        }
-        result += ` ${item}`;
-    });
-    return result;
-};
 
 
 /***/ })
