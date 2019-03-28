@@ -465,7 +465,6 @@ const addColorToCode = (code) => {
         if(item === "return") {
             item = `<span style="color: orange;">${item}</span>`;
         }
-        console.log(result);
         result += ` ${item}`;
     });
     return result;
