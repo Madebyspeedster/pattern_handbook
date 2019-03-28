@@ -218,8 +218,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
 /* harmony import */ var _domElements_spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
 /* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
-/* harmony import */ var _codeHighlighter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
-
 
 
 
@@ -289,7 +287,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function render(response) {
     "use strict";
-    let code = Object(_services_codeHighlighter__WEBPACK_IMPORTED_MODULE_1__["addColorToCode"])(response.codeExamples);
+    let code = response.codeExamples ? Object(_services_codeHighlighter__WEBPACK_IMPORTED_MODULE_1__["addColorToCode"])(response.codeExamples) : null;
     response.title ? _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.title.innerText = response.title: null;
     response.description ? _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.mainContainer.innerText = response.description: null;
     code ? _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.codeExampleOne.innerHTML = code : null;
