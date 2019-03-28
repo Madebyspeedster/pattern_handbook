@@ -91,6 +91,8 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_eventListener_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var _services_information_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
 
 
 /**
@@ -99,6 +101,12 @@ __webpack_require__.r(__webpack_exports__);
 
 _services_eventListener_service__WEBPACK_IMPORTED_MODULE_0__["menuEventListeners"].initShowHideMenuListener();
 _services_eventListener_service__WEBPACK_IMPORTED_MODULE_0__["menuEventListeners"].initClickOnLiElement();
+
+/**
+ *  Check last lecture in the local storage
+ */
+
+_services_information_service__WEBPACK_IMPORTED_MODULE_1__["getLastLectureIfExist"]();
 
 
 
@@ -121,7 +129,7 @@ const domElements = {
     renderElements: {
         title: document.getElementById("title"),
         mainContainer: document.getElementById("response-container"),
-        codeExampleOne: document.getElementById("code-example-one")
+        codeExampleOne: document.getElementById("editor")
     }
 };
 
@@ -205,9 +213,14 @@ function addNavigationMenuStyles() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchDataBasedOnId", function() { return fetchDataBasedOnId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLastLectureIfExist", function() { return getLastLectureIfExist; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
 /* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
 /* harmony import */ var _domElements_spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+/* harmony import */ var _navigationMenu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+/* harmony import */ var _codeHighlighter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+
+
 
 
 
@@ -229,14 +242,34 @@ function getLectureInfo(lectureId) {
 
 function fetchDataBasedOnId(id) {
     let lectureId = _utils__WEBPACK_IMPORTED_MODULE_0__["idOfLectures"][id];
-    if(lectureId) {
+    if (lectureId) {
         _domElements_spinner__WEBPACK_IMPORTED_MODULE_2__["spinner"].instance().showSpinner();
         return getLectureInfo(lectureId)
             .then((result) => {
-                Object(_render__WEBPACK_IMPORTED_MODULE_1__["render"])(result);
-                _domElements_spinner__WEBPACK_IMPORTED_MODULE_2__["spinner"].instance().hideSpinner();
-                console.log("end  Spinner");
+                if (result) {
+                    setLastLectureToLocalStorage(result);
+                    Object(_render__WEBPACK_IMPORTED_MODULE_1__["render"])(result);
+                    _navigationMenu__WEBPACK_IMPORTED_MODULE_3__["toggleMenu"].instance().toggle();
+                    _domElements_spinner__WEBPACK_IMPORTED_MODULE_2__["spinner"].instance().hideSpinner();
+                }
             })
+            .catch(e => {
+                console.log(e);
+                _domElements_spinner__WEBPACK_IMPORTED_MODULE_2__["spinner"].instance().hideSpinner();
+            })
+    }
+}
+
+
+function setLastLectureToLocalStorage(lectureObject) {
+    const lecture = JSON.stringify(lectureObject);
+    localStorage.setItem("lastLecture", lecture);
+}
+
+function getLastLectureIfExist() {
+    const lecture = localStorage.getItem("lastLecture");
+    if (lecture) {
+        Object(_render__WEBPACK_IMPORTED_MODULE_1__["render"])(JSON.parse(lecture));
     }
 }
 
@@ -249,16 +282,20 @@ function fetchDataBasedOnId(id) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony import */ var _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _services_navigationMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _services_codeHighlighter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
+
 
 
 
 function render(response) {
     "use strict";
-    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.title.innerText = response.title;
-    _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.mainContainer.innerText = response.description;
-    _services_navigationMenu__WEBPACK_IMPORTED_MODULE_1__["toggleMenu"].instance().toggle();
+    let code = Object(_services_codeHighlighter__WEBPACK_IMPORTED_MODULE_1__["addColorToCode"])(response.codeExamples);
+    response.title ? _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.title.innerText = response.title: null;
+    response.description ? _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.mainContainer.innerText = response.description: null;
+    code ? _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.codeExampleOne.innerHTML = code : null;
 }
+
+
 
 
 /***/ }),
@@ -333,6 +370,7 @@ function deleteListener(element, listenerType, functionName) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "idOfLectures", function() { return idOfLectures; });
 const idOfLectures = [
+    // Загальнодоступні статичні методи.
     "1eb57b3784b0f61767a6"
 ];
 
@@ -406,6 +444,32 @@ const spinner = (function () {
     };
 
 }());
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addColorToCode", function() { return addColorToCode; });
+const addColorToCode = (code) => {
+    let result = "";
+    code[0].split(" ").forEach((item) => {
+        if(item === "const") {
+            item = `<span style="color: orange;">${item}</span>`;
+        }
+        if(item === "function") {
+            item = `<span style="color: deepskyblue;"><i>${item}</i></span>`;
+        }
+        if(item === "return") {
+            item = `<span style="color: orange;">${item}</span>`;
+        }
+        console.log(result);
+        result += ` ${item}`;
+    });
+    return result;
+};
 
 
 /***/ })

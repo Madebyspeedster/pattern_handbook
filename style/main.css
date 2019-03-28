@@ -37,6 +37,7 @@ html, body {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 10;
     width: 25px;
     height: 100vh;
     background: seagreen;
@@ -92,4 +93,13 @@ html, body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+#editor {
+    position: relative;
+    width: 100%;
+    background: rgba(1,1,1,.2);
+    padding: 20px;
+}
+#editor pre {
+    font-size: 15px;
 }
