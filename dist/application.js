@@ -109,6 +109,31 @@ _services_eventListener_service__WEBPACK_IMPORTED_MODULE_0__["menuEventListeners
 _services_information_service__WEBPACK_IMPORTED_MODULE_1__["getLastLectureIfExist"]();
 
 
+const Gadget = function(price) {
+    this.price = price;
+};
+
+Gadget.setPrice = function () {
+    let msg = "You bet!";
+    if(this instanceof Gadget) {
+        return msg + " It's cost  " + this.price;
+    }
+    return msg;
+
+};
+Gadget.prototype.setPrice = function () {
+    return Gadget.setPrice.call(this);
+};
+
+
+const apple = new Gadget(21);
+
+
+console.log(Gadget.setPrice());
+console.log(apple.setPrice(31));
+
+
+
 
 /***/ }),
 /* 1 */
@@ -384,7 +409,7 @@ __webpack_require__.r(__webpack_exports__);
 const addColorToCode = (code) => {
     let result = "";
     code[0].split(" ").forEach((item) => {
-        if(item === "const") {
+        if(item === "const" || item === "this" || item === 'let' || item === "if") {
             item = `<span style="color: orange;">${item}</span>`;
         }
         if(item === "function") {
@@ -392,6 +417,12 @@ const addColorToCode = (code) => {
         }
         if(item === "return") {
             item = `<span style="color: orange;">${item}</span>`;
+        }
+        if (item === "new" || item === "instanceof" || item === "typeof") {
+            item = `<span style="color: tomato;">${item}</span>`;
+        }
+        if(item === "BR") {
+            item = `<br>`;
         }
         result += ` ${item}`;
     });
