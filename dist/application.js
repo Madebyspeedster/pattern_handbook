@@ -358,14 +358,14 @@ const idOfLectures = [
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony import */ var _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _services_codeHighlighter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+/* harmony import */ var _codeHighlighter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 
 
 
 
 function render(response) {
     "use strict";
-    let code = response.codeExamples ? Object(_services_codeHighlighter__WEBPACK_IMPORTED_MODULE_1__["addColorToCode"])(response.codeExamples) : null;
+    let code = response.codeExamples ? Object(_codeHighlighter__WEBPACK_IMPORTED_MODULE_1__["addColorToCode"])(response.codeExamples) : null;
     response.title ? _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.title.innerText = response.title: null;
     response.description ? _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.mainContainer.innerText = response.description: null;
     code ? _domElements_domElements__WEBPACK_IMPORTED_MODULE_0__["domElements"].renderElements.codeExampleOne.innerHTML = code : null;
