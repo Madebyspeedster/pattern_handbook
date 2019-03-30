@@ -399,7 +399,7 @@ const addColorToCode = (code) => {
             item = `<br>`;
         }
         if (item.match('this')) {
-            let that = `<span style="color: deeppink;">${item.slice(0, 4)}</span>`;
+            let that = `<span style="color: orangered;">${item.slice(0, 4)}</span>`;
             item = that + `${item.slice(3, item[item.length -1])}`
         }
         result += ` ${item}`;
