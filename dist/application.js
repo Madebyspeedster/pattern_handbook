@@ -109,32 +109,6 @@ _services_eventListener_service__WEBPACK_IMPORTED_MODULE_0__["menuEventListeners
 _services_information_service__WEBPACK_IMPORTED_MODULE_1__["getLastLectureIfExist"]();
 
 
-const Gadget = function(price) {
-    this.price = price;
-};
-
-Gadget.setPrice = function () {
-    let msg = "You bet!";
-    if(this instanceof Gadget) {
-        return msg + " It's cost  " + this.price;
-    }
-    return msg;
-
-};
-Gadget.prototype.setPrice = function () {
-    return Gadget.setPrice.call(this);
-};
-
-
-const apple = new Gadget(21);
-
-
-console.log(Gadget.setPrice());
-console.log(apple.setPrice(31));
-
-
-
-
 /***/ }),
 /* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -409,20 +383,24 @@ __webpack_require__.r(__webpack_exports__);
 const addColorToCode = (code) => {
     let result = "";
     code[0].split(" ").forEach((item) => {
-        if(item === "const" || item === "this" || item === 'let' || item === "if") {
+        if (item === "const" || item === 'let' || item === "if") {
             item = `<span style="color: orange;">${item}</span>`;
         }
-        if(item === "function") {
+        if (item === "function") {
             item = `<span style="color: deepskyblue;"><i>${item}</i></span>`;
         }
-        if(item === "return") {
+        if (item === "return") {
             item = `<span style="color: orange;">${item}</span>`;
         }
         if (item === "new" || item === "instanceof" || item === "typeof") {
             item = `<span style="color: tomato;">${item}</span>`;
         }
-        if(item === "BR") {
+        if (item === "BR") {
             item = `<br>`;
+        }
+        if (item.match('this')) {
+            let that = `<span style="color: deeppink;">${item.slice(0, 4)}</span>`;
+            item = that + `${item.slice(3, item[item.length -1])}`
         }
         result += ` ${item}`;
     });
